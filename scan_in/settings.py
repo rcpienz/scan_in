@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-dev-key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ["https://scanin.up.railway.app"]
+ALLOWED_HOSTS = ["scanin.up.railway.app"]
 
 
 # Application definition
