@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Scan In{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Zilla+Slab:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Basic Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+
+        body {
+            background-color: #f4f6f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+         header {
+            background-color:#2c3e50;
+            color:#fff;
+            padding:1rem 2rem;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        header a{
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        #digital-clock {
+            text-align: center;
+            font-size:1.5rem;
+            font-weight:700;
+            background-color:rgba(,0,0,0.1);
+            padding:0.5rem 1.2rem;
+            border-radius:10px;
+            color:#27e800;
+            font-family: 'Orbitron', serif;
+        }
+
+        nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #dedede;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            main {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            nav a {
+                margin-left: 0.8rem;
+            }
+
+            header h1 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1><a href="{% url 'scan_in_app:index' %}">Scan In</a></h1>
+        <div id="digital-clock">00:00:00</div>
+        <nav>
+            <a href="{% url 'scan_in_app:index' %}">Home</a>
+            <a href="{% url 'scan_in_app:monthly_attendance' %}">Attendance</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        
+        {% block content %}{% endblock content %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        &copy; {{ year|default:2026 }} Scan In. All rights reserved.
+    </footer>
+
+    <!-- Real-time Clock -->
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', year: 'numeric', month: 'long', day:'numeric', 
+                hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true 
+            };
+            const timeString = now.toLocaleTimeString('en-US', options);
+            document.getElementById('digital-clock').textContent = timeString;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+
+
+
+</body>
+</html>

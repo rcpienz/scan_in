@@ -1,0 +1,98 @@
+{% extends 'scan_in/base.html' %}
+
+{% block content %}
+
+<div style="max-width: 1000px; margin: 2rem auto;">
+
+    <h2 style="margin-bottom: 1.5rem; text-align:center; font-weight:500;">Monthly Attendance</h2>
+
+    <!-- Filter Form -->
+    <form method="get" style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-bottom:2rem; align-items:center;">
+        <!-- Employee selector -->
+        <label>
+            Employee:
+            <select name="employee" required
+                    style="padding:0.5rem 1rem; border-radius:8px; border:1px solid #ccc;">
+                <option value="">-- Select Employee --</option>
+                {% for emp in employees %}
+                    <option value="{{ emp.id }}"
+                        {% if emp.id|stringformat:"s" == selected_employee_id %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ emp.employeeId }} - {{ emp.fName }} {{ emp.lName }}
+                    </option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <!-- Month selector -->
+        <label>
+            Month:
+            <input type="month" name="month"
+                   value="{{ selectedMonth }}"
+                   style="padding:0.5rem 1rem; border-radius:8px; border:1px solid #ccc;">
+        </label>
+
+        <button type="submit"
+                style="padding:0.6rem 1.5rem; background:#3498db; color:#fff; border:none; border-radius:8px; font-weight:500; cursor:pointer; transition:0.2s;"
+                onmouseover="this.style.backgroundColor='#2980b9';"
+                onmouseout="this.style.backgroundColor='#3498db';"
+        >View</button>
+    </form>
+
+    {% if employee %}
+        <p style="text-align:center; margin-bottom:1rem; color:#555;">
+            Showing records for <strong>{{ employee.fName }} {{ employee.lName }}</strong> — {{ monthLabel }}
+        </p>
+
+        <!-- Monthly Summary Card -->
+        {% if summary %}
+        <div style="background:#f9f9f9; padding:1.5rem; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.05); margin-bottom:2rem;">
+            <h3 style="margin-bottom:1rem; font-weight:500; font-size:1.8rem">Monthly Summary {{ monthLabel }}</h3>
+            <ul style="list-style:none; padding-left:0; line-height:1.6;">
+                <li style="font-size:1.1rem"><strong>Total Time-Ins:</strong> {{ summary.total_days }}</li>
+                <li style="font-size:1.1rem"><strong>On-Time Days:</strong> {{ summary.on_time_days }}</li>
+                <li style="font-size:1.1rem"><strong>Late Days:</strong> {{ summary.late_days }}</li>
+                <li style="font-size:1.1rem"><strong>Total Late Minutes:</strong> {{ summary.total_late_minutes }}</li>
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Attendance Table -->
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.95rem;">
+                <thead>
+                    <tr style="background:#ecf0f1; text-align:center;">
+                        <th style="padding:0.8rem; border-bottom:2px solid #ccc;">Date</th>
+                        <th style="padding:0.8rem; border-bottom:2px solid #ccc;">Time In</th>
+                        <th style="padding:0.8rem; border-bottom:2px solid #ccc;">Status</th>
+                        <th style="padding:0.8rem; border-bottom:2px solid #ccc;">Late (mins)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                        <tr style="{% if record.isLate %}background:#fdecea;{% else %}background:#e9f7ef;{% endif %}">
+                            <td style="padding:0.6rem; border-bottom:1px solid #ddd;">{{ record.dateAdded|date:"M d, Y" }}</td>
+                            <td style="padding:0.6rem; border-bottom:1px solid #ddd;">{{ record.dateAdded|date:"h:i A" }}</td>
+                            <td style="padding:0.6rem; border-bottom:1px solid #ddd; font-weight:bold; color:{% if record.isLate %}#c0392b{% else %}#27ae60{% endif %};">
+                                {% if record.isLate %}LATE</span>{% else %}<span style="#00FF00">ON TIME</span>{% endif %}
+                            </td>
+                            <td style="padding:0.6rem; border-bottom:1px solid #ddd;">{% if record.isLate %}{{ record.lateMinutes }}{% else %}0{% endif %}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" style="text-align:center; padding:1rem;">No records for this month</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    {% else %}
+        <p style="text-align:center; color:#555;">Please select an employee.</p>
+    {% endif %}
+
+</div>
+
+{% endblock content %}

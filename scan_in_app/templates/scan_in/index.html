@@ -1,0 +1,55 @@
+{% extends "scan_in/base.html" %}
+
+{% block content %}
+
+<div style="text-align: center; margin-top: 2rem;">
+
+    <h2 style="margin-bottom: 1.5rem; font-weight: 500;">Welcome to Scan In</h2>
+
+    <!-- Buttons container -->
+    <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+
+        <!-- Time In Button -->
+        <a href="{% url 'scan_in_app:time-in' %}" 
+           style="
+                background-color: #27ae60;
+                color: white;
+                padding: 1.5rem 2.5rem;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 1.2rem;
+                border-radius: 12px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                transition: all 0.2s;
+            "
+           onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.15)';"
+           onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.1)';"
+        >
+            Time In
+        </a>
+
+        <!-- Time Out Button -->
+        <button
+            style="
+                background-color: #c0392b;
+                color: white;
+                padding: 1.5rem 2.5rem;
+                font-weight: 600;
+                font-size: 1.2rem;
+                border: none;
+                border-radius: 12px;
+                cursor: pointer;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                transition: all 0.2s;
+            "
+            onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 12px rgba(0,0,0,0.15)';"
+            onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.1)';"
+        >
+            Time Out
+        </button>
+
+    </div>
+
+</div>
+
+{% endblock content %}
