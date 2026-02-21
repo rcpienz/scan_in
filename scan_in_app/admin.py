@@ -13,6 +13,7 @@ class EmployeeAdmin(admin.ModelAdmin):
 
 @admin.register(TimeIn)
 class TimeInAdmin(admin.ModelAdmin):
+    list_per_page = 20
     list_display = (
         "employee",
         "dateAdded",
